@@ -43,6 +43,6 @@ class RecipesController < ApplicationController
     end
 
     def recipe_params
-      params.expect(recipe: [ :name ])
+      params.expect(recipe: [ :name, :featured_image ])
     end
 end
