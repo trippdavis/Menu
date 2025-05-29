@@ -1,5 +1,8 @@
 <h1><%= @recipe.name %></h1>
 
+<% @recipe.categories.each do |category| %>
+  <div><%= category.name %></div>
+<% end %>
 <%= image_tag @recipe.featured_image if @recipe.featured_image.attached? %>
 <%= link_to "Back", recipes_path %>
 <%= link_to "Edit", edit_recipe_path(@recipe) %>
