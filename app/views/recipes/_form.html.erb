@@ -5,6 +5,11 @@
   </div>
 
   <div>
+    <%= form.label :categories %>
+    <%= form.select :category_ids, @categories.map { |c| [c.name, c.id] }, { multiple: true } %>
+  </div>
+
+  <div>
     <%= form.label :featured_image, style: "display: block" %>
     <%= form.file_field :featured_image, accept: "image/*" %>
   </div>

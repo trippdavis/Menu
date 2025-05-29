@@ -1,5 +1,6 @@
 class RecipesController < ApplicationController
   before_action :set_recipe, only: %i[ show edit update destroy ]
+  before_action :set_categories, only: %i[ new edit ]
 
   def index
     @recipes = Recipe.all
@@ -42,7 +43,11 @@ class RecipesController < ApplicationController
       @recipe = Recipe.find(params[:id])
     end
 
+    def set_categories
+      @categories = Category.all
+    end
+
     def recipe_params
-      params.expect(recipe: [ :name, :featured_image ])
+      params.expect(recipe: [ :name, :featured_image, category_ids: [] ])
     end
 end
