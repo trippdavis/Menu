@@ -10,6 +10,11 @@
   </div>
 
   <div>
+    <%= form.label :ingredients %>
+    <%= form.textarea :ingredients, value: @recipe.ingredients.map { |i| "#{i.value} #{i.unit} #{i.name}" }.join("\n") %>
+  <div>
+
+  <div>
     <%= form.label :featured_image, style: "display: block" %>
     <%= form.file_field :featured_image, accept: "image/*" %>
   </div>
