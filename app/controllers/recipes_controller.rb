@@ -15,7 +15,7 @@ class RecipesController < ApplicationController
 
   def create
     @recipe = Recipe.new(recipe_params)
-    if @recipe.save && save_ingredients
+    if @recipe.save && save_ingredients && save_instructions
       redirect_to @recipe
     else
       render :new, status: :unprocessable_entity
@@ -26,7 +26,7 @@ class RecipesController < ApplicationController
   end
 
   def update
-    if @recipe.update(recipe_params) && save_ingredients
+    if @recipe.update(recipe_params) && save_ingredients && save_instructions
       redirect_to @recipe
     else
       render :edit, status: :unprocessable_entity
@@ -61,6 +61,21 @@ class RecipesController < ApplicationController
         ingredient.unit = new_unit
         ingredient.recipe = @recipe
         ingredient.save
+      end
+      return true
+    end
+
+    def save_instructions
+      old_instructions = @recipe.instructions
+      params[:recipe][:instructions].split("\r\n").each do |new_instruction|
+        split_instruction = new_instruction.split(" ")
+        new_step = split_instruction[0].delete(".")
+        new_body = split_instruction[1..-1].join(" ")
+        old_instruction = old_instructions.find { |i| i.step == new_step.to_i }
+        instruction = old_instruction || Instruction.new(step: new_step)
+        instruction.body = new_body
+        instruction.recipe = @recipe
+        instruction.save
       end
       return true
     end
