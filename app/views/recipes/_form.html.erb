@@ -12,7 +12,12 @@
   <div>
     <%= form.label :ingredients %>
     <%= form.textarea :ingredients, value: @recipe.ingredients.map { |i| "#{i.value} #{i.unit} #{i.name}" }.join("\n") %>
+  </div>
+
   <div>
+    <%= form.label :instructions %>
+    <%= form.textarea :instructions, value: @recipe.instructions.map { |i| "#{i.step}. #{i.body}" }.join("\n") %>
+  </div>
 
   <div>
     <%= form.label :featured_image, style: "display: block" %>
