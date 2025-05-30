@@ -4,6 +4,10 @@
   <div><%= category.name %></div>
 <% end %>
 <%= image_tag @recipe.featured_image if @recipe.featured_image.attached? %>
+<div>Ingredients</div>
+<% @recipe.ingredients.each do |ingredient| %>
+  <div><%= "#{ingredient.value} #{ingredient.unit} #{ingredient.name}" %></div>
+<% end %>
 <%= link_to "Back", recipes_path %>
 <%= link_to "Edit", edit_recipe_path(@recipe) %>
 <%= button_to "Delete", @recipe, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
