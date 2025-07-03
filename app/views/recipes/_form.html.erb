@@ -1,4 +1,10 @@
 <%= form_with model: recipe do |form| %>
+  <% if recipe.errors.any? %>
+    <div>
+      <%= recipe.errors.full_messages.to_sentence.capitalize %>
+    </div>
+  <% end %>
+
   <div>
     <%= form.label :name %>
     <%= form.text_field :name %>
@@ -6,17 +12,7 @@
 
   <div>
     <%= form.label :categories %>
-    <%= form.select :category_ids, @categories.map { |c| [c.name, c.id] }, { multiple: true } %>
-  </div>
-
-  <div>
-    <%= form.label :ingredients %>
-    <%= form.textarea :ingredients, value: @recipe.ingredients.map { |i| "#{i.value} #{i.unit} #{i.name}" }.join("\n") %>
-  </div>
-
-  <div>
-    <%= form.label :instructions %>
-    <%= form.textarea :instructions, value: @recipe.instructions.map { |i| "#{i.step}. #{i.body}" }.join("\n") %>
+    <%= form.select :category_ids, categories.map { |c| [c.name, c.id] }, { multiple: true } %>
   </div>
 
   <div>

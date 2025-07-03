@@ -1,4 +1,6 @@
 <h1>New recipe</h1>
 
-<%= render "form", recipe: @recipe %>
+<%= turbo_frame_tag "new_recipe_modal" do %>
+  <%= render "form", recipe: @recipe, categories: @categories %>
+<% end %>
 <%= link_to "Cancel", recipes_path %>

@@ -25,11 +25,20 @@
   <body>
     <nav>
       <%= link_to "Home", root_path %>
+      <%= link_to "New recipe", new_recipe_path, data: { turbo_frame: "new_recipe_modal" } if authenticated? %>
       <%= link_to "Login", new_session_path unless authenticated? %>
       <%= button_to "Log out", session_path, method: :delete if authenticated? %>
     </nav>
 
     <main>
+      <div
+          class="modal"
+          data-controller="new-recipe-modal"
+          data-action="turbo:frame-load->new-recipe-modal#open">
+        <div class="modal-content">
+          <%= turbo_frame_tag "new_recipe_modal", target: "_top" %>
+        </div>
+      </div>
       <%= yield %>
     </main>
   </body>

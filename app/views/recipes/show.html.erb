@@ -1,19 +1,28 @@
-<h1><%= @recipe.name %></h1>
+<%= turbo_frame_tag @recipe do %>
+  <h1><%= @recipe.name %></h1>
 
-<% @recipe.categories.each do |category| %>
-  <div><%= category.name %></div>
+  <% @recipe.categories.each do |category| %>
+    <div><%= category.name %></div>
+  <% end %>
+
+  <%= image_tag @recipe.featured_image if @recipe.featured_image.attached? %>
+  
+  <% if authenticated? %>
+    <%= link_to "Edit", edit_recipe_path(@recipe), data: { turbo_frame: @recipe } %>
+  <% end %>
 <% end %>
-<%= image_tag @recipe.featured_image if @recipe.featured_image.attached? %>
+
 <div>Ingredients</div>
 <% @recipe.ingredients.each do |ingredient| %>
   <div><%= "#{ingredient.value} #{ingredient.unit} #{ingredient.name}" %></div>
 <% end %>
+
 <div>Instructions</div>
 <% @recipe.instructions.order(:step).each do |instruction| %>
   <div><%= "#{instruction.step}. #{instruction.body}" %></div>
 <% end %>
+
 <%= link_to "Back", recipes_path %>
 <% if authenticated? %>
-  <%= link_to "Edit", edit_recipe_path(@recipe) %>
   <%= button_to "Delete", @recipe, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
 <% end %>

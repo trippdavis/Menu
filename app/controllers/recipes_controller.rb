@@ -16,10 +16,14 @@ class RecipesController < ApplicationController
 
   def create
     @recipe = Recipe.new(recipe_params)
-    if @recipe.save && save_ingredients && save_instructions
+    if @recipe.save
       redirect_to @recipe
     else
-      render :new, status: :unprocessable_entity
+      respond_to do |format|
+        set_categories
+        format.html { render :new, status: :unprocessable_entity }
+        format.turbo_stream { render :create_error, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -27,9 +31,10 @@ class RecipesController < ApplicationController
   end
 
   def update
-    if @recipe.update(recipe_params) && save_ingredients && save_instructions
+    if @recipe.update(recipe_params)
       redirect_to @recipe
     else
+      set_categories
       render :edit, status: :unprocessable_entity
     end
   end
